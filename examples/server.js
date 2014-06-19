@@ -23,10 +23,10 @@ app.use(require('connect-livereload')({
     port: 35729
 }));
 app.get('/servers/:serverid/albums', function (req, res) {
-    console.log("browse");
+  //  console.log("browse");
     mediaServers[req.params.serverid].browse(mediaServers[req.params.serverid].albumPath, upnpMediaServer.BROWSE_FLAG.BrowseDirectChildren, "*", 0, 50, "", function (result) {
         res.setHeader('Content-Type', 'application/json');
-        console.log("browse result");
+    //    console.log("browse result");
         if (result.Error)
             res.send(500, result);
         else
@@ -35,14 +35,30 @@ app.get('/servers/:serverid/albums', function (req, res) {
 });
 
 app.get('/servers/:serverid/browse/:id', function (req, res) {
-    mediaServers[req.params.serverid].browse(req.params.id, upnpMediaServer.BROWSE_FLAG.BrowseDirectChildren, "*", 0, 200, "", function (result) {
-        res.setHeader('Content-Type', 'application/json');
-        if (result.Error)
-            res.send(500, result);
-        else
-            res.send(200, result);
+//    mediaServers[req.params.serverid].browse(req.params.id, upnpMediaServer.BROWSE_FLAG.BrowseDirectChildren, "*", 0, 200, "", function (result) {
+//        res.setHeader('Content-Type', 'application/json');
+//        if (result.Error)
+//            res.send(500, result);
+//        else
+//            res.send(200, result);
+//
+//    });
+var args = {
+        ObjectID: req.params.id,
+        BrowseFlag: upnpMediaServer.BROWSE_FLAG.BrowseDirectChildren,
+        Filter: "*",
+        StartingIndex: 0,
+        RequestedCount: 200,
+        SortCriteria: ""
+    };
+	mediaServers[req.params.serverid].callAction('urn:upnp-org:serviceId:ContentDirectory','Browse',args, function (result) {
+	        res.setHeader('Content-Type', 'application/json');
+	        if (result.Error)
+	            res.send(500, result);
+	        else
+	            res.send(200, result);
 
-    });
+	    });
 
 });
 app.get('/getSystemUpdateID', function (req, res) {
@@ -121,18 +137,18 @@ var mediaServers = {};
 var mediaRenderers = {};
 
 var handleDevice = function (device) {
-    //console.log("device type: " + device.deviceType + " location: " + device.location);
+    console.log("device type: " + device.deviceType + " location: " + device.location);
     switch (device.deviceType) {
     case upnpMediaServer.MediaServer.deviceType:
         var mediaServer = new upnpMediaServer.MediaServer(device);
         mediaServer.albumPath = '0$1$12';
         mediaServers[mediaServer.device.uuid] = mediaServer;
-        //  console.log(device);
+        console.log(mediaServer.device.uuid);
         break;
     case upnpMediaRenderer.MediaRenderer.deviceType:
         var mediaRenderer = new upnpMediaRenderer.MediaRenderer(device);
         mediaRenderers[mediaRenderer.device.uuid] = mediaRenderer;
-        console.log(device);
+       // console.log(device);
         break;
     }
 };
