@@ -1,0 +1,13 @@
+sending SOAP request {"host":"192.168.0.32","port":"9000","path":"/TMSContentDir
+ectory/Control","method":"POST"}
+<?xml version="1.0"?>
+<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/envelope/" s:encodingStyle=
+"http://schemas.xmlsoap.org/soap/encoding/"><s:Body>
+<u:Browse xmlns:u="urn:schemas-upnp-org:service:ContentDirectory:1"><objectID>0<
+/objectID><BrowseFlag>BrowseDirectChildren</BrowseFlag><Filter>*</Filter><Starti
+ngIndex>0</StartingIndex><RequestedCount>0</RequestedCount><SortCriteria></SortC
+riteria></u:Browse></s:Body>
+</s:Envelope>
+                      
+                      
+SOAPACTION: '"urn:schemas-upnp-org:service:ConnectionManager:1#GetCurrentConnectionIDs"',

@@ -9,10 +9,15 @@
     "examples": "examples"
   },
   "dependencies": {
-    "xml2js": "~0.2.3"
+    "xml2js": "~0.2.3",
+    "xmldoc": "0.1.2",
+    "express": "4.4.3",
+    "m3u": "0.0.2"
   },
   "devDependencies": {
-    "mqtt": "*"
+    "mqtt": "*",
+    "connect-livereload": "^0.4.0",
+    "supervisor": "^0.6.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
