@@ -93,13 +93,14 @@ var UpnpControlPoint = require("../lib/upnp-controlpoint").UpnpControlPoint,
 var mediaServers = {};
 var mediaRenderers = {};
 var handleDevice = function (device) {
-    console.log("device type: " + device.deviceType + " location: " + device.location);
+    //console.log("device type: " + device.deviceType + " location: " + device.location);
     switch (device.deviceType) {
     case upnpMediaServer.MediaServer.deviceType:
         var mediaServer = new upnpMediaServer.MediaServer(device);
         mediaServer.albumPath = '0$1$12';
         mediaServers[mediaServer.device.uuid] = mediaServer;
-        console.log(mediaServer.device.uuid);
+        console.log("device: "+mediaServer.device.uuid);
+       
         break;
     case upnpMediaRenderer.MediaRenderer.deviceType:
         var mediaRenderer = new upnpMediaRenderer.MediaRenderer(device);
@@ -109,6 +110,7 @@ var handleDevice = function (device) {
     }
 };
 var callAndSend = function (serverId, serviceUrn, action, args, res) {
+	console.log(mediaServers[serverId].device.services);
     mediaServers[serverId].callAction(serviceUrn, action, args, function (result) {
         res.setHeader('Content-Type', 'application/json');
         if (result.Error)
