@@ -23,27 +23,19 @@ app.use(require('connect-livereload')({
     port: 35729
 }));
 app.get('/servers/:serverid/albums', function (req, res) {
-  //  console.log("browse");
-    mediaServers[req.params.serverid].browse(mediaServers[req.params.serverid].albumPath, upnpMediaServer.BROWSE_FLAG.BrowseDirectChildren, "*", 0, 50, "", function (result) {
-        res.setHeader('Content-Type', 'application/json');
-    //    console.log("browse result");
-        if (result.Error)
-            res.send(500, result);
-        else
-            res.send(200, result);
-    });
+    var args = {
+        ObjectID: mediaServers[req.params.serverid].albumPath,
+        BrowseFlag: upnpMediaServer.BROWSE_FLAG.BrowseDirectChildren,
+        Filter: "*",
+        StartingIndex: 0,
+        RequestedCount: 200,
+        SortCriteria: ""
+    };
+    callAndSend(req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args, res);
 });
 
 app.get('/servers/:serverid/browse/:id', function (req, res) {
-//    mediaServers[req.params.serverid].browse(req.params.id, upnpMediaServer.BROWSE_FLAG.BrowseDirectChildren, "*", 0, 200, "", function (result) {
-//        res.setHeader('Content-Type', 'application/json');
-//        if (result.Error)
-//            res.send(500, result);
-//        else
-//            res.send(200, result);
-//
-//    });
-var args = {
+    var args = {
         ObjectID: req.params.id,
         BrowseFlag: upnpMediaServer.BROWSE_FLAG.BrowseDirectChildren,
         Filter: "*",
@@ -51,65 +43,26 @@ var args = {
         RequestedCount: 200,
         SortCriteria: ""
     };
-	mediaServers[req.params.serverid].callAction('urn:upnp-org:serviceId:ContentDirectory','Browse',args, function (result) {
-	        res.setHeader('Content-Type', 'application/json');
-	        if (result.Error)
-	            res.send(500, result);
-	        else
-	            res.send(200, result);
-
-	    });
-
+    callAndSend(req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args, res);
 });
-app.get('/getSystemUpdateID', function (req, res) {
-    mediaServers[0].getSystemUpdateID(function (result) {
-        res.setHeader('Content-Type', 'application/json');
-        if (result.Error)
-            res.send(500, result);
-        else
-            res.send(200, result);
-    });
-
+app.get('/servers/:serverid/getSystemUpdateID', function (req, res) {
+    var args = {};
+    callAndSend(req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.GetSystemUpdateID, args, res);
 });
 
-app.get('/getSortCapabilities', function (req, res) {
-    mediaServers[0].getSortCapabilities(function (result) {
-        res.setHeader('Content-Type', 'application/json');
-        if (result.Error)
-            res.send(500, result);
-        else
-            res.send(200, result);
-
-    });
+app.get('/servers/:serverid/getSortCapabilities', function (req, res) {
+    var args = {};
+    callAndSend(req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.GetSortCapabilities, args, res);
 });
 
-
-
-app.get('/getSearchCapabilities', function (req, res) {
-    mediaServers[0].getSearchCapabilities(function (result) {
-        res.setHeader('Content-Type', 'application/json');
-
-        if (result.Error)
-            res.send(500, result);
-        else
-            res.send(200, result);
-
-    });
-
+app.get('/servers/:serverid/getSearchCapabilities', function (req, res) {
+    var args = {};
+    callAndSend(req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.GetSearchCapabilities, args, res);
 });
-// Launch server
-
-app.listen(4242);
-
 
 app.get('/servers/:serverid/playlist/:albumId', function (req, res) {
     mediaServers[req.params.serverid].browse(req.params.albumId, upnpMediaServer.BROWSE_FLAG.BrowseDirectChildren, "*", 0, 0, "", function (result) {
         var writer = m3u.extendedWriter();
-        // A comment.
-        //   writer.comment('I am a comment');
-        // An empty line.
-        //   writer.write(); // blank line
-
 
         result.Result.item.forEach(function (item) {
             // A playlist item, usually a path or url.
@@ -128,14 +81,17 @@ app.get('/servers/:serverid/playlist/:albumId', function (req, res) {
 
 });
 
+// Launch server
+app.listen(4242);
+
 
 var UpnpControlPoint = require("../lib/upnp-controlpoint").UpnpControlPoint,
+    ContentDirectoryService = require("../lib/contentDirectoryService").ContentDirectoryService,
 
     upnpMediaServer = require("../lib/upnp-mediaServer"),
     upnpMediaRenderer = require("../lib/upnp-mediaRenderer");
 var mediaServers = {};
 var mediaRenderers = {};
-
 var handleDevice = function (device) {
     console.log("device type: " + device.deviceType + " location: " + device.location);
     switch (device.deviceType) {
@@ -148,10 +104,21 @@ var handleDevice = function (device) {
     case upnpMediaRenderer.MediaRenderer.deviceType:
         var mediaRenderer = new upnpMediaRenderer.MediaRenderer(device);
         mediaRenderers[mediaRenderer.device.uuid] = mediaRenderer;
-       // console.log(device);
+        // console.log(device);
         break;
     }
 };
+var callAndSend = function (serverId, serviceUrn, action, args, res) {
+    mediaServers[serverId].callAction(serviceUrn, action, args, function (result) {
+        res.setHeader('Content-Type', 'application/json');
+        if (result.Error)
+            res.send(500, result);
+        else
+            res.send(200, result);
+    });
+
+}
+
 var cp = new UpnpControlPoint();
 cp.on("device", handleDevice);
 cp.search();
