@@ -11,9 +11,10 @@
   "dependencies": {
     "xml2js": "~0.2.3",
     "xmldoc": "0.1.2",
-    "express": "4.4.3",
     "xmldom": "0.1.19",
-    "m3u": "0.0.2"
+    "m3u": "0.0.2",
+    "body-parser": "^1.4.3",
+    "express.io": "^1.1.13"
   },
   "devDependencies": {
     "mqtt": "*",
