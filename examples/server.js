@@ -13,7 +13,7 @@ var allowCrossDomain = function (req, res, next) {
     res.header('Access-Control-Allow-Credentials', 'true');
 
     next();
-}
+};
 
 // Config
 
@@ -31,15 +31,8 @@ app.use(require('connect-livereload')({
 app.get('/servers', function (req, res) {
     var result = [];
     for (var key in mediaServers) {
-        var server = mediaServers[key];
-
-        var serv = {};
-        serv.id = server.device.uuid; // A playlist item, usually a path or url.
-        serv.name = server.device.friendlyName;
-        serv.icon = ((server.device.desc.presentationURL) ? server.device.desc.presentationURL : "").replace(/\/\s*$/, "") + "/" + server.device.desc.iconList.icon[0].url[0].replace(/^\//, '');
-        result.push(serv);
+           result.push(createDeviceData( mediaServers[key].device));
     };
-
     res.send(200, result);
 
 });
@@ -47,15 +40,8 @@ app.get('/servers', function (req, res) {
 app.get('/renderers', function (req, res) {
     var result = [];
     for (var key in mediaRenderers) {
-        var server = mediaRenderers[key];
-
-        var serv = {};
-        serv.id = server.device.uuid; // A playlist item, usually a path or url.
-        serv.name = server.device.friendlyName;
-        serv.icon = ((server.device.desc.presentationURL) ? server.device.desc.presentationURL : "").replace(/\/\s*$/, "") + "/" + server.device.desc.iconList.icon[0].url[0].replace(/^\//, '');
-        result.push(serv);
+           result.push(createDeviceData( mediaRenderers[key].device));
     };
-
     res.send(200, result);
 
 });
@@ -149,7 +135,7 @@ app.put('/renderers/:rendererId/transportURI', function (req, res) {
             var args3 = {
                 InstanceID: 0,
                 Speed: 1
-            }
+            };
             mediaRenderers[req.params.rendererId].callAction(AVTransportService.serviceUrn, AVTransportService.actions.Play, args3, function (result) {
                 res.setHeader('Content-Type', 'application/json');
                 if (result.Error)
@@ -186,11 +172,7 @@ var handleDevice = function (device) {
         mediaServers[mediaServer.device.uuid] = mediaServer;
         console.log("mediaServer: " + mediaServer.device.uuid);
         //        console.log(mediaServer.device);
-        var serv = {};
-        serv.id = device.uuid; // A playlist item, usually a path or url.
-        serv.name = device.friendlyName;
-        serv.icon = ((device.desc.presentationURL) ? device.desc.presentationURL : "").replace(/\/\s*$/, "") + "/" + device.desc.iconList.icon[0].url[0].replace(/^\//, '');
-        app.io.broadcast("device:server", serv);
+        app.io.broadcast("device:server", createDeviceData(device));
         break;
     case MediaRenderer.deviceType:
         var mediaRenderer = new MediaRenderer(device);
@@ -198,11 +180,7 @@ var handleDevice = function (device) {
         console.log("mediaRenderer: " + mediaRenderer.device.uuid);
         //  console.log(device);
 
-        var serv = {};
-        serv.id = device.uuid; // A playlist item, usually a path or url.
-        serv.name = device.friendlyName;
-        serv.icon = ((device.desc.presentationURL) ? device.desc.presentationURL : "").replace(/\/\s*$/, "") + "/" + device.desc.iconList.icon[0].url[0].replace(/^\//, '');
-        app.io.broadcast("device:renderer", serv);
+        app.io.broadcast("device:renderer", createDeviceData(device));
 
         break;
     }
@@ -217,7 +195,18 @@ var callAndSend = function (serverId, serviceUrn, action, args, res) {
             res.send(200, result);
     });
 
-}
+};
+var createDeviceData = function(device){
+	 var serv = {};
+     serv.id = device.uuid; 
+     serv.name = device.friendlyName;
+     serv.icon = ((device.desc.presentationURL) ? device.desc.presentationURL : "").replace(/\/\s*$/, "") + "/" + device.desc.iconList.icon[0].url[0].replace(/^\//, '');
+    
+     return serv;
+	
+};
+
+
 
 var cp = new UpnpControlPoint();
 cp.on("device", handleDevice);
