@@ -7,7 +7,7 @@ var DOMParser = require('xmldom').DOMParser;
 var domParser = new DOMParser();
 var app = express();
 var allowCrossDomain = function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:55631');
+    res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     res.header('Access-Control-Allow-Credentials', 'true');
@@ -68,7 +68,27 @@ app.get('/servers/:serverid/albums', function (req, res) {
         RequestedCount: 200,
         SortCriteria: ""
     };
-    callAndSend(req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args, res);
+    callAndSend(req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args, res, browseResultParse);
+});
+app.get('/servers/:serverid/album/:albumId', function (req, res) {
+        var args = {
+                ObjectID: req.params.albumId,
+            BrowseFlag: ContentDirectoryService.BROWSE_FLAG.BrowseMetadata,
+            Filter: "*",
+            StartingIndex: 0,
+            RequestedCount: 1,
+            SortCriteria: ""
+    }; callAndSend(req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args, res, browseResultParse);
+});
+app.get('/servers/:serverid/album/:albumId/pistes', function (req, res) {
+        var args = {
+                ObjectID: req.params.albumId,
+            BrowseFlag: ContentDirectoryService.BROWSE_FLAG.BrowseDirectChildren,
+            Filter: "*",
+            StartingIndex: 0,
+            RequestedCount: 200,
+            SortCriteria: ""
+    }; callAndSend(req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args, res, browseResultParse);
 });
 
 app.get('/servers/:serverid/browse/:id', function (req, res) {
@@ -80,7 +100,7 @@ app.get('/servers/:serverid/browse/:id', function (req, res) {
         RequestedCount: 200,
         SortCriteria: ""
     };
-    callAndSend(req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args, res);
+    callAndSend(req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args, res, browseResultParse);
 });
 app.get('/servers/:serverid/getSystemUpdateID', function (req, res) {
     var args = {};
@@ -207,9 +227,12 @@ var handleDevice = function (device) {
         break;
     }
 };
-var callAndSend = function (serverId, serviceUrn, action, args, res) {
+var callAndSend = function (serverId, serviceUrn, action, args, res, resultFunction) {
     console.log(mediaServers[serverId].services);
     mediaServers[serverId].callAction(serviceUrn, action, args, function (result) {
+        if (resultFunction) {
+            result = resultFunction(result);
+        }
         res.setHeader('Content-Type', 'application/json');
         if (result.Error)
             res.send(500, result);
@@ -217,6 +240,12 @@ var callAndSend = function (serverId, serviceUrn, action, args, res) {
             res.send(200, result);
     });
 
+}
+
+var browseResultParse = function (result) {
+    var xmlDIDL = domParser.parseFromString(result.Result, 'text/xml');
+    result.Result = soap2json.XMLObjectifier.xmlToJSON(xmlDIDL);
+    return result;
 }
 
 var cp = new UpnpControlPoint();
