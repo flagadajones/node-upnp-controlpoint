@@ -56,7 +56,7 @@ app.get('/servers/:serverid/albums', function (req, res) {
         BrowseFlag: ContentDirectoryService.BROWSE_FLAG.BrowseDirectChildren,
         Filter: "*",
         StartingIndex: 0,
-        RequestedCount: 20,
+        RequestedCount: 2000,
         SortCriteria: ""
     };
     callAndSend(req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args, res, browseResultParse);
@@ -258,6 +258,8 @@ var browseResultParse = function (result) {
     console.log(result);
     if (result.Result.container != null) {
         result.Result.container.forEach(function (item) {
+            var fs = require('fs');
+            request(item.albumArtURI[0].Text).pipe(fs.createWriteStream('D:/Documents/telecommande/node-upnp-controlpoint/image/' + item.id + '.jpeg'));
             item.albumArtURI[0].Text = item.albumArtURI[0].Text.replace('192.168.0.32:9000', '192.168.0.102:4242');
         });
     };
