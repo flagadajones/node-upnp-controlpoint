@@ -56,10 +56,10 @@ app.get('/servers/:serverid/albums', function (req, res) {
         BrowseFlag: ContentDirectoryService.BROWSE_FLAG.BrowseDirectChildren,
         Filter: "*",
         StartingIndex: 0,
-        RequestedCount: 2000,
+        RequestedCount: 500,
         SortCriteria: ""
     };
-    
+
     callAndSend(req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args, res, browseResultParse);
 });
 app.get('/servers/:serverid/albums/:albumId', function (req, res) {
@@ -186,6 +186,7 @@ app.get('/disk/*', function (req, res) {
     };
 
     request(requestSettings, function (error, response, body) {
+        res.setHeader('Cache-Control','no-transform,public,max-age=300,s-maxage=900');
         res.setHeader('content-type', 'image/jpeg');
         res.end(body, 'binary');
     });
@@ -262,7 +263,7 @@ var browseResultParse = function (result) {
             var fs = require('fs');
             request(item.albumArtURI[0].Text).pipe(fs.createWriteStream('D:/Documents/telecommande/node-upnp-controlpoint/image/' + item.id + '.jpeg'));
             item.albumArtURI[0].Text = item.albumArtURI[0].Text.replace('192.168.0.32:9000', '192.168.0.102:4242');
-            item.albumArtURI[0].Text='http://localhost:4242/images/'+item.id+'.jpeg';
+            //item.albumArtURI[0].Text='http://localhost:4242/images/'+item.id+'.jpeg';
         });
     };
     if (result.Result.item != null) {
