@@ -14,7 +14,9 @@
     "xmldom": "0.1.19",
     "m3u": "0.0.2",
     "body-parser": "^1.4.3",
-    "express.io": "^1.1.13"
+    "express.io": "^1.1.13",
+    "request": "^2.36.0",
+    "connect": "^2.21.1"
   },
   "devDependencies": {
     "mqtt": "*",

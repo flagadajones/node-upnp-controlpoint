@@ -1,11 +1,15 @@
 var application_root = __dirname,
     express = require("express.io"),
+    http = require('http'),
     bodyParser = require('body-parser'),
+    connect = require('connect'),
+    request = require('request'),
     m3u = require('m3u');
 var soap2json = require('../lib/soap2json');
 var DOMParser = require('xmldom').DOMParser;
 var domParser = new DOMParser();
 var app = express();
+
 var allowCrossDomain = function (req, res, next) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -25,13 +29,14 @@ var allowCrossDomain = function (req, res, next) {
 
 app.use(allowCrossDomain);
 app.use(bodyParser.json());
+app.use(connect.compress());
 app.use(require('connect-livereload')({
     port: 35729
 }));
 app.get('/servers', function (req, res) {
     var result = [];
     for (var key in mediaServers) {
-           result.push(createDeviceData( mediaServers[key].device));
+        result.push(createDeviceData(mediaServers[key].device));
     };
     res.send(200, result);
 
@@ -40,7 +45,7 @@ app.get('/servers', function (req, res) {
 app.get('/renderers', function (req, res) {
     var result = [];
     for (var key in mediaRenderers) {
-           result.push(createDeviceData( mediaRenderers[key].device));
+        result.push(createDeviceData(mediaRenderers[key].device));
     };
     res.send(200, result);
 
@@ -51,30 +56,32 @@ app.get('/servers/:serverid/albums', function (req, res) {
         BrowseFlag: ContentDirectoryService.BROWSE_FLAG.BrowseDirectChildren,
         Filter: "*",
         StartingIndex: 0,
-        RequestedCount: 200,
+        RequestedCount: 20,
         SortCriteria: ""
     };
     callAndSend(req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args, res, browseResultParse);
 });
-app.get('/servers/:serverid/album/:albumId', function (req, res) {
-        var args = {
-                ObjectID: req.params.albumId,
-            BrowseFlag: ContentDirectoryService.BROWSE_FLAG.BrowseMetadata,
-            Filter: "*",
-            StartingIndex: 0,
-            RequestedCount: 1,
-            SortCriteria: ""
-    }; callAndSend(req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args, res, browseResultParse);
+app.get('/servers/:serverid/albums/:albumId', function (req, res) {
+    var args = {
+        ObjectID: req.params.albumId,
+        BrowseFlag: ContentDirectoryService.BROWSE_FLAG.BrowseMetadata,
+        Filter: "*",
+        StartingIndex: 0,
+        RequestedCount: 1,
+        SortCriteria: ""
+    };
+    callAndSend(req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args, res, browseResultParse);
 });
-app.get('/servers/:serverid/album/:albumId/pistes', function (req, res) {
-        var args = {
-                ObjectID: req.params.albumId,
-            BrowseFlag: ContentDirectoryService.BROWSE_FLAG.BrowseDirectChildren,
-            Filter: "*",
-            StartingIndex: 0,
-            RequestedCount: 200,
-            SortCriteria: ""
-    }; callAndSend(req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args, res, browseResultParse);
+app.get('/servers/:serverid/albums/:albumId/pistes', function (req, res) {
+    var args = {
+        ObjectID: req.params.albumId,
+        BrowseFlag: ContentDirectoryService.BROWSE_FLAG.BrowseDirectChildren,
+        Filter: "*",
+        StartingIndex: 0,
+        RequestedCount: 200,
+        SortCriteria: ""
+    };
+    callAndSend(req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args, res, browseResultParse);
 });
 
 app.get('/servers/:serverid/browse/:id', function (req, res) {
@@ -169,6 +176,20 @@ app.put('/renderers/:rendererId/transportURI', function (req, res) {
 
 });
 
+app.get('/disk/*', function (req, res) {
+    var url = 'http://192.168.0.32:9000' + req.url;
+    var requestSettings = {
+        method: 'GET',
+        url: url,
+        encoding: null
+    };
+
+    request(requestSettings, function (error, response, body) {
+        res.setHeader('content-type', 'image/jpeg');
+        res.end(body, 'binary');
+    });
+});
+
 // Launch server
 app.http().io();
 app.listen(4242);
@@ -219,14 +240,14 @@ var callAndSend = function (serverId, serviceUrn, action, args, res, resultFunct
     });
 
 };
-var createDeviceData = function(device){
-	 var serv = {};
-     serv.id = device.uuid; 
-     serv.name = device.friendlyName;
-     serv.icon = ((device.desc.presentationURL) ? device.desc.presentationURL : "").replace(/\/\s*$/, "") + "/" + device.desc.iconList.icon[0].url[0].replace(/^\//, '');
-    
-     return serv;
-	
+var createDeviceData = function (device) {
+    var serv = {};
+    serv.id = device.uuid;
+    serv.name = device.friendlyName;
+    serv.icon = ((device.desc.presentationURL) ? device.desc.presentationURL : "").replace(/\/\s*$/, "") + "/" + device.desc.iconList.icon[0].url[0].replace(/^\//, '');
+
+    return serv;
+
 };
 
 
@@ -234,6 +255,17 @@ var createDeviceData = function(device){
 var browseResultParse = function (result) {
     var xmlDIDL = domParser.parseFromString(result.Result, 'text/xml');
     result.Result = soap2json.XMLObjectifier.xmlToJSON(xmlDIDL);
+    console.log(result);
+    if (result.Result.container != null) {
+        result.Result.container.forEach(function (item) {
+            item.albumArtURI[0].Text = item.albumArtURI[0].Text.replace('192.168.0.32:9000', '192.168.0.102:4242');
+        });
+    };
+    if (result.Result.item != null) {
+        result.Result.item.forEach(function (item) {
+            item.albumArtURI[0].Text = item.albumArtURI[0].Text.replace('192.168.0.32:9000', '192.168.0.102:4242');
+        });
+    };
     return result;
 }
 
