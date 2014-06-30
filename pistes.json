@@ -1,0 +1,448 @@
+{
+  "Result": {
+    "item": [
+      {
+        "restricted": "1",
+        "parentID": "0$1$12$5952",
+        "refID": "0$1$8I435978",
+        "id": "0$1$12$5952R435978",
+        "title": "Khalliouni Khalliouni (Instrumental)",
+        "date": "1998-01-01",
+        "genre": "Mizrahi",
+        "album": "1, 2, 3 Soleils",
+        "originalTrackNumber": "1",
+        "creator": "Taha, Khaled, Fudel",
+        "albumArtURI": [
+          {
+            "dlna:profileID": "JPEG_TN",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNJPEG_TN-OP01-CI1-FLAGS00f00000/defaultalbumart/a_u_d_i_o.jpg/O0$1$8I435978.jpg?scale=160x160"
+          }
+        ],
+        "artist": "Taha, Khaled, Fudel",
+        "extension": "mp3",
+        "albumArtist": "Taha, Khaled, Fudel",
+        "lastPlayedTime": "2014-06-21T01:18:17",
+        "playcount": "23",
+        "modificationTime": "1345811836",
+        "addedTime": "946685343",
+        "lastUpdated": "1345811836",
+        "res": [
+          {
+            "protocolInfo": "http-get:*:audio/mpeg:DLNA.ORG_PN=MP3;DLNA.ORG_OP=01;DLNA.ORG_FLAGS=01700000000000000000000000000000",
+            "size": "11382206",
+            "duration": "0:05:42",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNMP3-OP01-FLAGS01700000/O0$1$8I435978.mp3"
+          }
+        ],
+        "class": "object.item.audioItem.musicTrack"
+      },
+      {
+        "restricted": "1",
+        "parentID": "0$1$12$5952",
+        "refID": "0$1$8I437258",
+        "id": "0$1$12$5952R437258",
+        "title": "Menfi",
+        "date": "1998-01-01",
+        "genre": "Mizrahi",
+        "album": "1, 2, 3 Soleils",
+        "originalTrackNumber": "2",
+        "creator": "Taha, Khaled, Fudel",
+        "albumArtURI": [
+          {
+            "dlna:profileID": "JPEG_TN",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNJPEG_TN-OP01-CI1-FLAGS00f00000/defaultalbumart/a_u_d_i_o.jpg/O0$1$8I437258.jpg?scale=160x160"
+          }
+        ],
+        "artist": "Taha, Khaled, Fudel",
+        "extension": "mp3",
+        "albumArtist": "Taha, Khaled, Fudel",
+        "lastPlayedTime": "2014-06-21T01:23:07",
+        "playcount": "1",
+        "modificationTime": "1345811899",
+        "addedTime": "946685343",
+        "lastUpdated": "1345811899",
+        "res": [
+          {
+            "protocolInfo": "http-get:*:audio/mpeg:DLNA.ORG_PN=MP3;DLNA.ORG_OP=01;DLNA.ORG_FLAGS=01700000000000000000000000000000",
+            "size": "12186465",
+            "duration": "0:05:40",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNMP3-OP01-FLAGS01700000/O0$1$8I437258.mp3"
+          }
+        ],
+        "class": "object.item.audioItem.musicTrack"
+      },
+      {
+        "restricted": "1",
+        "parentID": "0$1$12$5952",
+        "refID": "0$1$8I436234",
+        "id": "0$1$12$5952R436234",
+        "title": "Eray",
+        "date": "1998-01-01",
+        "genre": "Mizrahi",
+        "album": "1, 2, 3 Soleils",
+        "originalTrackNumber": "3",
+        "creator": "Taha, Khaled, Fudel",
+        "albumArtURI": [
+          {
+            "dlna:profileID": "JPEG_TN",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNJPEG_TN-OP01-CI1-FLAGS00f00000/defaultalbumart/a_u_d_i_o.jpg/O0$1$8I436234.jpg?scale=160x160"
+          }
+        ],
+        "artist": "Taha, Khaled, Fudel",
+        "extension": "mp3",
+        "albumArtist": "Taha, Khaled, Fudel",
+        "lastPlayedTime": "2012-11-24T00:37:26",
+        "playcount": "3",
+        "modificationTime": "1345811949",
+        "addedTime": "946685343",
+        "lastUpdated": "1345811949",
+        "res": [
+          {
+            "protocolInfo": "http-get:*:audio/mpeg:DLNA.ORG_PN=MP3;DLNA.ORG_OP=01;DLNA.ORG_FLAGS=01700000000000000000000000000000",
+            "size": "10519289",
+            "duration": "0:04:54",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNMP3-OP01-FLAGS01700000/O0$1$8I436234.mp3"
+          }
+        ],
+        "class": "object.item.audioItem.musicTrack"
+      },
+      {
+        "restricted": "1",
+        "parentID": "0$1$12$5952",
+        "refID": "0$1$8I435466",
+        "id": "0$1$12$5952R435466",
+        "title": "N'ssi N'ssi",
+        "date": "1998-01-01",
+        "genre": "Mizrahi",
+        "album": "1, 2, 3 Soleils",
+        "originalTrackNumber": "4",
+        "creator": "Taha, Khaled, Fudel",
+        "albumArtURI": [
+          {
+            "dlna:profileID": "JPEG_TN",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNJPEG_TN-OP01-CI1-FLAGS00f00000/defaultalbumart/a_u_d_i_o.jpg/O0$1$8I435466.jpg?scale=160x160"
+          }
+        ],
+        "artist": "Taha, Khaled, Fudel",
+        "extension": "mp3",
+        "albumArtist": "Taha, Khaled, Fudel",
+        "modificationTime": "1345811997",
+        "addedTime": "946685343",
+        "lastUpdated": "1345811997",
+        "res": [
+          {
+            "protocolInfo": "http-get:*:audio/mpeg:DLNA.ORG_PN=MP3;DLNA.ORG_OP=01;DLNA.ORG_FLAGS=01700000000000000000000000000000",
+            "size": "10809246",
+            "duration": "0:04:56",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNMP3-OP01-FLAGS01700000/O0$1$8I435466.mp3"
+          }
+        ],
+        "class": "object.item.audioItem.musicTrack"
+      },
+      {
+        "restricted": "1",
+        "parentID": "0$1$12$5952",
+        "refID": "0$1$8I437514",
+        "id": "0$1$12$5952R437514",
+        "title": "Ida",
+        "date": "1998-01-01",
+        "genre": "Mizrahi",
+        "album": "1, 2, 3 Soleils",
+        "originalTrackNumber": "5",
+        "creator": "Taha, Khaled, Fudel",
+        "albumArtURI": [
+          {
+            "dlna:profileID": "JPEG_TN",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNJPEG_TN-OP01-CI1-FLAGS00f00000/defaultalbumart/a_u_d_i_o.jpg/O0$1$8I437514.jpg?scale=160x160"
+          }
+        ],
+        "artist": "Taha, Khaled, Fudel",
+        "extension": "mp3",
+        "albumArtist": "Taha, Khaled, Fudel",
+        "modificationTime": "1345812055",
+        "addedTime": "946685343",
+        "lastUpdated": "1345812055",
+        "res": [
+          {
+            "protocolInfo": "http-get:*:audio/mpeg:DLNA.ORG_PN=MP3;DLNA.ORG_OP=01;DLNA.ORG_FLAGS=01700000000000000000000000000000",
+            "size": "12721143",
+            "duration": "0:06:34",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNMP3-OP01-FLAGS01700000/O0$1$8I437514.mp3"
+          }
+        ],
+        "class": "object.item.audioItem.musicTrack"
+      },
+      {
+        "restricted": "1",
+        "parentID": "0$1$12$5952",
+        "refID": "0$1$8I436490",
+        "id": "0$1$12$5952R436490",
+        "title": "Wahrane Wahrane",
+        "date": "1998-01-01",
+        "genre": "Mizrahi",
+        "album": "1, 2, 3 Soleils",
+        "originalTrackNumber": "6",
+        "creator": "Taha, Khaled, Fudel",
+        "albumArtURI": [
+          {
+            "dlna:profileID": "JPEG_TN",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNJPEG_TN-OP01-CI1-FLAGS00f00000/defaultalbumart/a_u_d_i_o.jpg/O0$1$8I436490.jpg?scale=160x160"
+          }
+        ],
+        "artist": "Taha, Khaled, Fudel",
+        "extension": "mp3",
+        "albumArtist": "Taha, Khaled, Fudel",
+        "modificationTime": "1345812096",
+        "addedTime": "946685343",
+        "lastUpdated": "1345812096",
+        "res": [
+          {
+            "protocolInfo": "http-get:*:audio/mpeg:DLNA.ORG_PN=MP3;DLNA.ORG_OP=01;DLNA.ORG_FLAGS=01700000000000000000000000000000",
+            "size": "10920163",
+            "duration": "0:04:56",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNMP3-OP01-FLAGS01700000/O0$1$8I436490.mp3"
+          }
+        ],
+        "class": "object.item.audioItem.musicTrack"
+      },
+      {
+        "restricted": "1",
+        "parentID": "0$1$12$5952",
+        "refID": "0$1$8I436746",
+        "id": "0$1$12$5952R436746",
+        "title": "Chebba",
+        "date": "1998-01-01",
+        "genre": "Mizrahi",
+        "album": "1, 2, 3 Soleils",
+        "originalTrackNumber": "7",
+        "creator": "Taha, Khaled, Fudel",
+        "albumArtURI": [
+          {
+            "dlna:profileID": "JPEG_TN",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNJPEG_TN-OP01-CI1-FLAGS00f00000/defaultalbumart/a_u_d_i_o.jpg/O0$1$8I436746.jpg?scale=160x160"
+          }
+        ],
+        "artist": "Taha, Khaled, Fudel",
+        "extension": "mp3",
+        "albumArtist": "Taha, Khaled, Fudel",
+        "lastPlayedTime": "2014-05-10T16:43:05",
+        "playcount": "2",
+        "modificationTime": "1345812137",
+        "addedTime": "946685343",
+        "lastUpdated": "1345812137",
+        "res": [
+          {
+            "protocolInfo": "http-get:*:audio/mpeg:DLNA.ORG_PN=MP3;DLNA.ORG_OP=01;DLNA.ORG_FLAGS=01700000000000000000000000000000",
+            "size": "10809382",
+            "duration": "0:05:07",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNMP3-OP01-FLAGS01700000/O0$1$8I436746.mp3"
+          }
+        ],
+        "class": "object.item.audioItem.musicTrack"
+      },
+      {
+        "restricted": "1",
+        "parentID": "0$1$12$5952",
+        "refID": "0$1$8I437770",
+        "id": "0$1$12$5952R437770",
+        "title": "Abdel Kader",
+        "date": "1998-01-01",
+        "genre": "Mizrahi",
+        "album": "1, 2, 3 Soleils",
+        "originalTrackNumber": "8",
+        "creator": "Taha, Khaled, Fudel",
+        "albumArtURI": [
+          {
+            "dlna:profileID": "JPEG_TN",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNJPEG_TN-OP01-CI1-FLAGS00f00000/defaultalbumart/a_u_d_i_o.jpg/O0$1$8I437770.jpg?scale=160x160"
+          }
+        ],
+        "artist": "Taha, Khaled, Fudel",
+        "extension": "mp3",
+        "albumArtist": "Taha, Khaled, Fudel",
+        "lastPlayedTime": "2014-05-10T16:43:14",
+        "playcount": "7",
+        "modificationTime": "1345812174",
+        "addedTime": "946685343",
+        "lastUpdated": "1345812174",
+        "res": [
+          {
+            "protocolInfo": "http-get:*:audio/mpeg:DLNA.ORG_PN=MP3;DLNA.ORG_OP=01;DLNA.ORG_FLAGS=01700000000000000000000000000000",
+            "size": "9913118",
+            "duration": "0:04:58",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNMP3-OP01-FLAGS01700000/O0$1$8I437770.mp3"
+          }
+        ],
+        "class": "object.item.audioItem.musicTrack"
+      },
+      {
+        "restricted": "1",
+        "parentID": "0$1$12$5952",
+        "refID": "0$1$8I438282",
+        "id": "0$1$12$5952R438282",
+        "title": "Aicha",
+        "date": "1998-01-01",
+        "genre": "Mizrahi",
+        "album": "1, 2, 3 Soleils",
+        "originalTrackNumber": "9",
+        "creator": "Taha, Khaled, Fudel",
+        "albumArtURI": [
+          {
+            "dlna:profileID": "JPEG_TN",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNJPEG_TN-OP01-CI1-FLAGS00f00000/defaultalbumart/a_u_d_i_o.jpg/O0$1$8I438282.jpg?scale=160x160"
+          }
+        ],
+        "artist": "Taha, Khaled, Fudel",
+        "extension": "mp3",
+        "albumArtist": "Taha, Khaled, Fudel",
+        "modificationTime": "1345812224",
+        "addedTime": "946685343",
+        "lastUpdated": "1345812224",
+        "res": [
+          {
+            "protocolInfo": "http-get:*:audio/mpeg:DLNA.ORG_PN=MP3;DLNA.ORG_OP=01;DLNA.ORG_FLAGS=01700000000000000000000000000000",
+            "size": "14615978",
+            "duration": "0:06:53",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNMP3-OP01-FLAGS01700000/O0$1$8I438282.mp3"
+          }
+        ],
+        "class": "object.item.audioItem.musicTrack"
+      },
+      {
+        "restricted": "1",
+        "parentID": "0$1$12$5952",
+        "refID": "0$1$8I435722",
+        "id": "0$1$12$5952R435722",
+        "title": "Tellement N'Brick",
+        "date": "1998-01-01",
+        "genre": "Mizrahi",
+        "album": "1, 2, 3 Soleils",
+        "originalTrackNumber": "10",
+        "creator": "Taha, Khaled, Fudel",
+        "albumArtURI": [
+          {
+            "dlna:profileID": "JPEG_TN",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNJPEG_TN-OP01-CI1-FLAGS00f00000/defaultalbumart/a_u_d_i_o.jpg/O0$1$8I435722.jpg?scale=160x160"
+          }
+        ],
+        "artist": "Taha, Khaled, Fudel",
+        "extension": "mp3",
+        "albumArtist": "Taha, Khaled, Fudel",
+        "modificationTime": "1345812286",
+        "addedTime": "946685343",
+        "lastUpdated": "1345812286",
+        "res": [
+          {
+            "protocolInfo": "http-get:*:audio/mpeg:DLNA.ORG_PN=MP3;DLNA.ORG_OP=01;DLNA.ORG_FLAGS=01700000000000000000000000000000",
+            "size": "19379366",
+            "duration": "0:09:12",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNMP3-OP01-FLAGS01700000/O0$1$8I435722.mp3"
+          }
+        ],
+        "class": "object.item.audioItem.musicTrack"
+      },
+      {
+        "restricted": "1",
+        "parentID": "0$1$12$5952",
+        "refID": "0$1$8I438026",
+        "id": "0$1$12$5952R438026",
+        "title": "Didi",
+        "date": "1998-01-01",
+        "genre": "Mizrahi",
+        "album": "1, 2, 3 Soleils",
+        "originalTrackNumber": "11",
+        "creator": "Taha, Khaled, Fudel",
+        "albumArtURI": [
+          {
+            "dlna:profileID": "JPEG_TN",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNJPEG_TN-OP01-CI1-FLAGS00f00000/defaultalbumart/a_u_d_i_o.jpg/O0$1$8I438026.jpg?scale=160x160"
+          }
+        ],
+        "artist": "Taha, Khaled, Fudel",
+        "extension": "mp3",
+        "albumArtist": "Taha, Khaled, Fudel",
+        "modificationTime": "1345812326",
+        "addedTime": "946685343",
+        "lastUpdated": "1345812326",
+        "res": [
+          {
+            "protocolInfo": "http-get:*:audio/mpeg:DLNA.ORG_PN=MP3;DLNA.ORG_OP=01;DLNA.ORG_FLAGS=01700000000000000000000000000000",
+            "size": "13359474",
+            "duration": "0:06:10",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNMP3-OP01-FLAGS01700000/O0$1$8I438026.mp3"
+          }
+        ],
+        "class": "object.item.audioItem.musicTrack"
+      },
+      {
+        "restricted": "1",
+        "parentID": "0$1$12$5952",
+        "refID": "0$1$8I437002",
+        "id": "0$1$12$5952R437002",
+        "title": "Ya Rayah",
+        "date": "1998-01-01",
+        "genre": "Mizrahi",
+        "album": "1, 2, 3 Soleils",
+        "originalTrackNumber": "12",
+        "creator": "Taha, Khaled, Fudel",
+        "albumArtURI": [
+          {
+            "dlna:profileID": "JPEG_TN",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNJPEG_TN-OP01-CI1-FLAGS00f00000/defaultalbumart/a_u_d_i_o.jpg/O0$1$8I437002.jpg?scale=160x160"
+          }
+        ],
+        "artist": "Taha, Khaled, Fudel",
+        "extension": "mp3",
+        "albumArtist": "Taha, Khaled, Fudel",
+        "modificationTime": "1345812375",
+        "addedTime": "946685343",
+        "lastUpdated": "1345812375",
+        "res": [
+          {
+            "protocolInfo": "http-get:*:audio/mpeg:DLNA.ORG_PN=MP3;DLNA.ORG_OP=01;DLNA.ORG_FLAGS=01700000000000000000000000000000",
+            "size": "14954142",
+            "duration": "0:07:31",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNMP3-OP01-FLAGS01700000/O0$1$8I437002.mp3"
+          }
+        ],
+        "class": "object.item.audioItem.musicTrack"
+      },
+      {
+        "restricted": "1",
+        "parentID": "0$1$12$5952",
+        "refID": "0$1$8I435210",
+        "id": "0$1$12$5952R435210",
+        "title": "Comme D'Habitude",
+        "date": "1998-01-01",
+        "genre": "Mizrahi",
+        "album": "1, 2, 3 Soleils",
+        "originalTrackNumber": "13",
+        "creator": "Taha, Khaled, Fudel",
+        "albumArtURI": [
+          {
+            "dlna:profileID": "JPEG_TN",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNJPEG_TN-OP01-CI1-FLAGS00f00000/defaultalbumart/a_u_d_i_o.jpg/O0$1$8I435210.jpg?scale=160x160"
+          }
+        ],
+        "artist": "Taha, Khaled, Fudel",
+        "extension": "mp3",
+        "albumArtist": "Taha, Khaled, Fudel",
+        "modificationTime": "1345812402",
+        "addedTime": "946685343",
+        "lastUpdated": "1345812402",
+        "res": [
+          {
+            "protocolInfo": "http-get:*:audio/mpeg:DLNA.ORG_PN=MP3;DLNA.ORG_OP=01;DLNA.ORG_FLAGS=01700000000000000000000000000000",
+            "size": "8565606",
+            "duration": "0:04:22",
+            "Text": "http://192.168.0.32:9000/disk/DLNA-PNMP3-OP01-FLAGS01700000/O0$1$8I435210.mp3"
+          }
+        ],
+        "class": "object.item.audioItem.musicTrack"
+      }
+    ]
+  },
+  "NumberReturned": "13",
+  "TotalMatches": "13",
+  "UpdateID": "1"
+}

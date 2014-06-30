@@ -51,16 +51,12 @@ app.get('/renderers', function (req, res) {
 
 });
 app.get('/servers/:serverid/albums', function (req, res) {
-    var args = {
-        ObjectID: mediaServers[req.params.serverid].albumPath,
-        BrowseFlag: ContentDirectoryService.BROWSE_FLAG.BrowseDirectChildren,
-        Filter: "*",
-        StartingIndex: 0,
-        RequestedCount: 2000,
-        SortCriteria: ""
-    };
-    
-    callAndSend(req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args, res, browseResultParse);
+    var fileJSON = require('../albums.json');
+    var result=fileJSON;
+    result.Result.container.forEach(function (item) {
+        item.albumArtURI[0].Text='http://localhost:4242/images/'+item.id+'.jpeg';
+    });
+    res.send(200,result);
 });
 app.get('/servers/:serverid/albums/:albumId', function (req, res) {
     var args = {
@@ -74,16 +70,9 @@ app.get('/servers/:serverid/albums/:albumId', function (req, res) {
     callAndSend(req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args, res, browseResultParse);
 });
 app.get('/servers/:serverid/albums/:albumId/pistes', function (req, res) {
-    var args = {
-        ObjectID: req.params.albumId,
-        BrowseFlag: ContentDirectoryService.BROWSE_FLAG.BrowseDirectChildren,
-        Filter: "*",
-        StartingIndex: 0,
-        RequestedCount: 200,
-        SortCriteria: ""
-    };
-    callAndSend(req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args, res, browseResultParse);
-});
+	 var fileJSON = require('../pistes.json');
+	    var result=fileJSON;
+    res.send(200,result);});
 
 app.get('/servers/:serverid/browse/:id', function (req, res) {
     var args = {
@@ -97,98 +86,24 @@ app.get('/servers/:serverid/browse/:id', function (req, res) {
     callAndSend(req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args, res, browseResultParse);
 });
 app.get('/servers/:serverid/getSystemUpdateID', function (req, res) {
-    var args = {};
-    callAndSend(req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.GetSystemUpdateID, args, res);
 });
 
 app.get('/servers/:serverid/getSortCapabilities', function (req, res) {
-    var args = {};
-    callAndSend(req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.GetSortCapabilities, args, res);
 });
 
 app.get('/servers/:serverid/getSearchCapabilities', function (req, res) {
-    var args = {};
-    callAndSend(req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.GetSearchCapabilities, args, res);
 });
 
 app.get('/servers/:serverid/playlist/:albumId', function (req, res) {
-    var args = {
-        ObjectID: req.params.albumId,
-        BrowseFlag: ContentDirectoryService.BROWSE_FLAG.BrowseDirectChildren,
-        Filter: "*",
-        StartingIndex: 0,
-        RequestedCount: 200,
-        SortCriteria: ""
-    };
-    mediaServers[req.params.serverid].callAction(ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args, function (result) {
-        var writer = m3u.extendedWriter();
-        var xmlDIDL = domParser.parseFromString(result.Result, 'text/xml');
-        result.Result = soap2json.XMLObjectifier.xmlToJSON(xmlDIDL);
-        result.Result.item.forEach(function (item) {
-            // A playlist item, usually a path or url.
-            writer.file(item.res[0].Text, item.res[0].duration, item.title);
-        });
-        //      console.log(writer.toString());
-        res.setHeader('Content-Type', 'application/json');
-
-        if (result.Error)
-            res.send(500, result);
-        else
-            res.send(200, writer.toString());
-        //    res.send(200, result);
-
-    });
-
 });
 app.put('/renderers/:rendererId/transportURI', function (req, res) {
-    var body = req.body;
-    //{"serverId":"","albumId":""}
-    console.log(body);
-    var args = {
-        ObjectID: body.albumId,
-        BrowseFlag: ContentDirectoryService.BROWSE_FLAG.BrowseMetadata,
-        Filter: "*",
-        StartingIndex: 0,
-        RequestedCount: 200,
-        SortCriteria: ""
-    };
-    mediaServers[body.serverId].callAction(ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args, function (result) {
-        var args2 = {
-            InstanceID: 0,
-            CurrentURI: "http://localhost:4242/servers/" + body.serverId + "/playlist/" + body.albumId,
-            CurrentURIMetaData: result.Result
-        };
-        console.log(args2);
-        mediaRenderers[req.params.rendererId].callAction(AVTransportService.serviceUrn, AVTransportService.actions.SetAVTransportURI, args2, function (result) {
-            var args3 = {
-                InstanceID: 0,
-                Speed: 1
-            };
-            mediaRenderers[req.params.rendererId].callAction(AVTransportService.serviceUrn, AVTransportService.actions.Play, args3, function (result) {
-                res.setHeader('Content-Type', 'application/json');
-                if (result.Error)
-                    res.send(500, result);
-                else
-                    res.send(200, result);
-            });
-        });
-    });
-
-
 });
 
 app.get('/disk/*', function (req, res) {
-    var url = 'http://192.168.0.32:9000' + req.url;
-    var requestSettings = {
-        method: 'GET',
-        url: url,
-        encoding: null
-    };
+});
 
-    request(requestSettings, function (error, response, body) {
-        res.setHeader('content-type', 'image/jpeg');
-        res.end(body, 'binary');
-    });
+app.get('/images/:id', function(req, res) {
+	  res.sendfile('image/'+req.params.id);
 });
 
 // Launch server
@@ -271,7 +186,7 @@ var browseResultParse = function (result) {
         });
     };
     return result;
-};
+}
 
 var cp = new UpnpControlPoint();
 cp.on("device", handleDevice);

@@ -9,14 +9,14 @@
     "examples": "examples"
   },
   "dependencies": {
+    "body-parser": "^1.4.3",
+    "connect": "^2.21.1",
+    "express.io": "^1.1.13",
+    "m3u": "0.0.2",
+    "request": "^2.36.0",
     "xml2js": "~0.2.3",
     "xmldoc": "0.1.2",
-    "xmldom": "0.1.19",
-    "m3u": "0.0.2",
-    "body-parser": "^1.4.3",
-    "express.io": "^1.1.13",
-    "request": "^2.36.0",
-    "connect": "^2.21.1"
+    "xmldom": "0.1.19"
   },
   "devDependencies": {
     "mqtt": "*",
