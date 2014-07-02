@@ -143,7 +143,7 @@ app.get('/servers/:serverid/playlist/:albumId', function (req, res) {
 app.put('/renderers/:rendererId/transportURI', function (req, res) {
     var body = req.body;
     //{"serverId":"","albumId":""}
-    console.log(body);
+    //  console.log(body);
     var args = {
         ObjectID: body.albumId,
         BrowseFlag: ContentDirectoryService.BROWSE_FLAG.BrowseMetadata,
@@ -158,7 +158,7 @@ app.put('/renderers/:rendererId/transportURI', function (req, res) {
             CurrentURI: "http://localhost:4242/servers/" + body.serverId + "/playlist/" + body.albumId,
             CurrentURIMetaData: result.Result
         };
-        console.log(args2);
+        // console.log(args2);
         mediaRenderers[req.params.rendererId].callAction(AVTransportService.serviceUrn, AVTransportService.actions.SetAVTransportURI, args2, function (result) {
             var args3 = {
                 InstanceID: 0,
@@ -186,7 +186,7 @@ app.get('/disk/*', function (req, res) {
     };
 
     request(requestSettings, function (error, response, body) {
-        res.setHeader('Cache-Control','no-transform,public,max-age=300,s-maxage=900');
+        res.setHeader('Cache-Control', 'no-transform,public,max-age=300,s-maxage=900');
         res.setHeader('content-type', 'image/jpeg');
         res.end(body, 'binary');
     });
@@ -207,7 +207,7 @@ var UpnpControlPoint = require("../lib/upnp-controlpoint").UpnpControlPoint,
 var mediaServers = {};
 var mediaRenderers = {};
 var handleDevice = function (device) {
-    //console.log("device type: " + device.deviceType + "location: " + device.location);
+    console.log("device type: " + device.deviceType + "location: " + device.location);
     switch (device.deviceType) {
     case MediaServer.deviceType:
         var mediaServer = new MediaServer(device);
@@ -229,7 +229,7 @@ var handleDevice = function (device) {
     }
 };
 var callAndSend = function (serverId, serviceUrn, action, args, res, resultFunction) {
-    console.log(mediaServers[serverId].services);
+    //  console.log(mediaServers[serverId].services);
     mediaServers[serverId].callAction(serviceUrn, action, args, function (result) {
         if (resultFunction) {
             result = resultFunction(result);
@@ -246,8 +246,10 @@ var createDeviceData = function (device) {
     var serv = {};
     serv.id = device.uuid;
     serv.name = device.friendlyName;
+    
     serv.icon = ((device.desc.presentationURL) ? device.desc.presentationURL : "").replace(/\/\s*$/, "") + "/" + device.desc.iconList.icon[0].url[0].replace(/^\//, '');
-
+console.log(device.desc.iconList.icon[0]);
+    console.log(device.desc);
     return serv;
 
 };
@@ -257,7 +259,7 @@ var createDeviceData = function (device) {
 var browseResultParse = function (result) {
     var xmlDIDL = domParser.parseFromString(result.Result, 'text/xml');
     result.Result = soap2json.XMLObjectifier.xmlToJSON(xmlDIDL);
-    console.log(result);
+    //  console.log(result);
     if (result.Result.container != null) {
         result.Result.container.forEach(function (item) {
             var fs = require('fs');
@@ -276,4 +278,10 @@ var browseResultParse = function (result) {
 
 var cp = new UpnpControlPoint();
 cp.on("device", handleDevice);
+/*
+setInterval(function () {
+    cp.search();
+    console.log("search");
+}, 10 * 1000);
+*/
 cp.search();
