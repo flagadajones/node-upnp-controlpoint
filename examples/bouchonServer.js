@@ -143,7 +143,7 @@ var handleDevice = function (device) {
     }
 };
 var callAndSend = function (serverId, serviceUrn, action, args, res, resultFunction) {
-    console.log(mediaServers[serverId].services);
+   // console.log(mediaServers[serverId].services);
     mediaServers[serverId].callAction(serviceUrn, action, args, function (result) {
         if (resultFunction) {
             result = resultFunction(result);
@@ -171,7 +171,7 @@ var createDeviceData = function (device) {
 var browseResultParse = function (result) {
     var xmlDIDL = domParser.parseFromString(result.Result, 'text/xml');
     result.Result = soap2json.XMLObjectifier.xmlToJSON(xmlDIDL);
-    console.log(result);
+  //  console.log(result);
     if (result.Result.container != null) {
         result.Result.container.forEach(function (item) {
             var fs = require('fs');
