@@ -61,6 +61,7 @@ app.get('/servers/:serverid/albums', function (req, res) {
     };
 
     callAndSend(mediaServers, req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args, res, browseResultParse);
+
 });
 app.get('/servers/:serverid/albums/:albumId', function (req, res) {
     var args = {
@@ -96,6 +97,57 @@ app.get('/servers/:serverid/browse/:id', function (req, res) {
     };
     callAndSend(mediaServers, req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args, res, browseResultParse);
 });
+
+app.get('/test', function (req, res) {
+    var body = req.body;
+    body = {
+        "serverId": "55076f6e-6b79-4d65-6471-b8a386975678",
+        "albumId": "0$1$12$5746"
+    };
+
+    var args = {
+        ObjectID: body.albumId,
+        BrowseFlag: ContentDirectoryService.BROWSE_FLAG.BrowseMetadata,
+        Filter: "*",
+        StartingIndex: 0,
+        RequestedCount: 200,
+        SortCriteria: ""
+    };
+    console.log(args);
+    mediaServers[body.serverId].callAction(ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args, function (result) {
+        var albumMeta = result.Result;
+        albumMeta = albumMeta.replace("</container></DIDL-Lite>", "");
+        //result.Result = albumMeta;
+        // res.send(200, result);
+        var args2 = {
+            ObjectID: body.albumId,
+            BrowseFlag: ContentDirectoryService.BROWSE_FLAG.BrowseDirectChildren,
+            Filter: "*",
+            StartingIndex: 0,
+            RequestedCount: 200,
+            SortCriteria: ""
+        };
+        console.log(args);
+        mediaServers[body.serverId].callAction(ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args2, function (result) {
+            listePiste = result.Result.replace("<DIDL-Lite xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:upnp=\"urn:schemas-upnp-org:metadata-1-0/upnp/\" xmlns:dlna=\"urn:schemas-dlna-org:metadata-1-0/\" xmlns:arib=\"urn:schemas-arib-or-jp:elements-1-0/\" xmlns:dtcp=\"urn:schemas-dtcp-com:metadata-1-0/\" xmlns:pv=\"http://www.pv.com/pvns/\" xmlns=\"urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/\">", "").replace("</DIDL-Lite>", "");
+            //  result.Result = listePiste;
+            //    res.send(200, result);
+            var args3 = {
+                InstanceID: 0,
+                CurrentURI: "http://192.168.0.23:4242/servers/" + body.serverId + "/playlist/" + body.albumId + "/playlist.m3u",
+                CurrentURIMetaData: encodeHTML(albumMeta + listePiste + "</container></DIDL-Lite>"), //encodeHTML(result.Result),
+
+                //"http://192.168.0.32:9000/disk/DLNA-PNMP3-OP01-FLAGS01700000/O0$1$8I435978.mp3"
+            };
+
+            //    res.setHeader('Content-Type', 'application/xml');
+            //    res.send(200, albumMeta + listePiste + "</container></DIDL-Lite>");
+            console.log(args2);
+            callAndSend(mediaRenderers, "693f0e26-bd86-47b3-8183-9836e0313d2e", AVTransportService.serviceUrn, AVTransportService.actions.SetAVTransportURI, args3, res);
+        });
+    });
+
+});
 app.get('/servers/:serverid/getSystemUpdateID', function (req, res) {
     var args = {};
     callAndSend(mediaServers, req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.GetSystemUpdateID, args, res);
@@ -111,7 +163,7 @@ app.get('/servers/:serverid/getSearchCapabilities', function (req, res) {
     callAndSend(mediaServers, req.params.serverid, ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.GetSearchCapabilities, args, res);
 });
 
-app.get('/servers/:serverid/playlist/:albumId', function (req, res) {
+app.get('/servers/:serverid/playlist/:albumId/playlist.m3u', function (req, res) {
     var args = {
         ObjectID: req.params.albumId,
         BrowseFlag: ContentDirectoryService.BROWSE_FLAG.BrowseDirectChildren,
@@ -204,8 +256,8 @@ app.get('/renderers/:rendererId/prev', function (req, res) {
 
 app.put('/renderers/:rendererId/transportURI', function (req, res) {
     var body = req.body;
-    //{"serverId":"","albumId":""}
-    //  console.log(body);
+
+
     var args = {
         ObjectID: body.albumId,
         BrowseFlag: ContentDirectoryService.BROWSE_FLAG.BrowseMetadata,
@@ -216,15 +268,37 @@ app.put('/renderers/:rendererId/transportURI', function (req, res) {
     };
     console.log(args);
     mediaServers[body.serverId].callAction(ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args, function (result) {
+        var albumMeta = result.Result;
+        albumMeta = albumMeta.replace("</container></DIDL-Lite>", "");
+        //result.Result = albumMeta;
+        // res.send(200, result);
         var args2 = {
-            InstanceID: 0,
-            CurrentURIMetaData: encodeHTML(result.Result),
-            CurrentURI: "http://127.0.0.1:61817/MediaServerContent_0/4/0000000000000009/%20-%20Sleep%20Away.mp3", //"http://localhost:4242/servers/" + body.serverId + "/playlist/" + body.albumId,
+            ObjectID: body.albumId,
+            BrowseFlag: ContentDirectoryService.BROWSE_FLAG.BrowseDirectChildren,
+            Filter: "*",
+            StartingIndex: 0,
+            RequestedCount: 200,
+            SortCriteria: ""
         };
-        console.log(args2);
-        callAndSend(mediaRenderers, req.params.rendererId, AVTransportService.serviceUrn, AVTransportService.actions.SetAVTransportURI, args2, res);
-    });
+        console.log(args);
+        mediaServers[body.serverId].callAction(ContentDirectoryService.serviceUrn, ContentDirectoryService.actions.Browse, args2, function (result) {
+            listePiste = result.Result.replace("<DIDL-Lite xmlns:dc=\"http://purl.org/dc/elements/1.1/\" xmlns:upnp=\"urn:schemas-upnp-org:metadata-1-0/upnp/\" xmlns:dlna=\"urn:schemas-dlna-org:metadata-1-0/\" xmlns:arib=\"urn:schemas-arib-or-jp:elements-1-0/\" xmlns:dtcp=\"urn:schemas-dtcp-com:metadata-1-0/\" xmlns:pv=\"http://www.pv.com/pvns/\" xmlns=\"urn:schemas-upnp-org:metadata-1-0/DIDL-Lite/\">", "").replace("</DIDL-Lite>", "");
+            //  result.Result = listePiste;
+            //    res.send(200, result);
+            var args3 = {
+                InstanceID: 0,
+                CurrentURI: "http://192.168.0.23:4242/servers/" + body.serverId + "/playlist/" + body.albumId + "/playlist.m3u",
+                CurrentURIMetaData: encodeHTML(albumMeta + listePiste + "</container></DIDL-Lite>"), //encodeHTML(result.Result),
 
+                //"http://192.168.0.32:9000/disk/DLNA-PNMP3-OP01-FLAGS01700000/O0$1$8I435978.mp3"
+            };
+
+            //    res.setHeader('Content-Type', 'application/xml');
+            //    res.send(200, albumMeta + listePiste + "</container></DIDL-Lite>");
+            console.log(args2);
+            callAndSend(mediaRenderers, req.params.rendererId, AVTransportService.serviceUrn, AVTransportService.actions.SetAVTransportURI, args3, res);
+        });
+    });
 
 });
 
@@ -312,6 +386,7 @@ var callAndSend = function (type, deviceId, serviceUrn, action, args, res, resul
         if (resultFunction) {
             result = resultFunction(result);
         }
+
         res.setHeader('Content-Type', 'application/json');
         if (result.Error)
             res.send(500, result);
@@ -344,13 +419,13 @@ var createDeviceData = function (device) {
 var browseResultParse = function (result) {
     var xmlDIDL = domParser.parseFromString(result.Result, 'text/xml');
     result.Result = soap2json.XMLObjectifier.xmlToJSON(xmlDIDL);
-    console.log(result.Result.container);
+    // console.log(result.Result.container);
     if (result.Result.container != null) {
         result.Result.container.forEach(function (item) {
             if (item.albumArtURI) {
                 var fs = require('fs');
-                request(item.albumArtURI[0].Text).pipe(fs.createWriteStream('D:/Documents/telecommande/node-upnp-controlpoint/image/' + item.id + '.jpeg'));
-                item.albumArtURI[0].Text = item.albumArtURI[0].Text.replace('192.168.0.32:9000', '192.168.0.102:4242');
+                //           request(item.albumArtURI[0].Text).pipe(fs.createWriteStream('D:/Documents/telecommande/node-upnp-controlpoint/image/' + item.id + '.jpeg'));
+                item.albumArtURI[0].Text = item.albumArtURI[0].Text.replace('192.168.0.32:9000', '192.168.0.23:4242');
                 //item.albumArtURI[0].Text='http://localhost:4242/images/'+item.id+'.jpeg';
             }
         });
@@ -358,7 +433,7 @@ var browseResultParse = function (result) {
     if (result.Result.item != null) {
         result.Result.item.forEach(function (item) {
             if (item.albumArtURI) {
-                item.albumArtURI[0].Text = item.albumArtURI[0].Text.replace('192.168.0.32:9000', '192.168.0.102:4242');
+                item.albumArtURI[0].Text = item.albumArtURI[0].Text.replace('192.168.0.32:9000', '192.168.0.23:4242');
             }
         });
     };
@@ -375,10 +450,10 @@ var encodeHTML = function (string) {
 
 var cp = new UpnpControlPoint();
 cp.on("device", handleDevice);
-/*
+
 setInterval(function () {
     cp.search();
     console.log("search");
-}, 10 * 1000);
-*/
+}, 30 * 1000);
+
 cp.search();
