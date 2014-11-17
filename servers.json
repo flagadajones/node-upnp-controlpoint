@@ -1,0 +1,10 @@
+[
+  {
+    "_id": "55076f6e-6b79-4d65-6471-b8a386975678",
+    "name": "flagadajones",
+    "type": "Server",
+    "albumPath": "$0$1$12",
+    "icon": "http://192.168.0.32:9000/images/twonkyicon-48x48.jpg",
+    "active": true
+  }
+]
